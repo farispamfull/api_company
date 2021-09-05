@@ -1,10 +1,8 @@
-from operator import itemgetter
-
 from django.db.models import Q
+from operator import itemgetter
 from rest_framework import serializers
 
 from .models import Company, Worker, User, AccessPrivilege
-
 
 
 class WorkerPostSerializer(serializers.ModelSerializer):
@@ -41,13 +39,6 @@ class WorkerPostSerializer(serializers.ModelSerializer):
             'company', 'name', 'position', 'personal_phone',
             'fax_phone',
             'work_phone')
-    # validators = [
-    #     UniqueTogetherValidator(
-    #         queryset=Worker.objects.all(),
-    #         fields=['work_phone', 'company'],
-    #         message='Вы уже уже оставляли отзыв на этот объект',
-    #     )
-    # ]
 
 
 class FilteredListSerializer(serializers.ListSerializer):

@@ -9,9 +9,7 @@ class IsOwner(BasePermission):
 
 
 class IsAuthenticatedOrReadOnly(BasePermission):
-    """
-    The request is authenticated as a user, or is a read-only request.
-    """
+
 
     def has_permission(self, request, view):
         company_id = request.resolver_match.kwargs.get('company_id')
@@ -27,9 +25,7 @@ class IsAuthenticatedOrReadOnly(BasePermission):
 
 
 class WorkersPermissions(BasePermission):
-    """
-    The request is authenticated as a user, or is a read-only request.
-    """
+
 
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:

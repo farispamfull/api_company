@@ -44,10 +44,7 @@ class Worker(models.Model):
     def serializer_clean(self):
         return self.fax_phone or self.work_phone or self.personal_phone
 
-    # def clean(self):
-    #     if not (self.fax_phone or self.work_phone or self.personal_phone):
-    #         raise ValueError(
-    #             'you must enter at least one phone number')
+
 
     def get_phones(self):
         data = {
@@ -61,6 +58,4 @@ class Worker(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['company', 'name'],
                                     name='unique_name'),
-            # models.UniqueConstraint(fields=['company', 'personal_phone'],
-            #                         name='unique_phone')
         ]

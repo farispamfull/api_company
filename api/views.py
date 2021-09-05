@@ -1,4 +1,3 @@
-# Create your views here.
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, mixins
 from rest_framework import status
@@ -32,22 +31,6 @@ class BaseCreateViewSet(mixins.ListModelMixin,
     pass
 
 
-# class RightsViewsSet(BaseCreateViewSet):
-#
-#     def get_serializer_class(self):
-#         if self.action == 'list':
-#             return RightsSerializer
-#         return RightsPostSerializer
-#
-#     def perform_create(self, serializer):
-#         company = get_object_or_404(Company, pk=self.kwargs.get('company_id'))
-#         serializer.save(permissions=company)
-#
-#     def get_queryset(self):
-#         queryset = Company.objects.filter(pk=self.kwargs.get('company_id'))
-#         return queryset
-
-
 class WorkerViewSet(viewsets.ModelViewSet):
     permission_classes = [WorkersPermissions, ]
     filter_backends = [filters.SearchFilter]
@@ -55,7 +38,6 @@ class WorkerViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve', 'destroy'):
-            print('----------------------------')
             return WorkerSerializer
         return WorkerPostSerializer
 
@@ -81,7 +63,7 @@ class PrivilegeView(APIView):
         email = request.data.get('email')
         company = get_object_or_404(Company, pk=company_id)
         if User.objects.filter(email=email, company=company):
-            return Response({"emai": 'такой юзер уже есть'},
+            return Response({"email": 'такой юзер уже есть'},
                             status=status.HTTP_400_BAD_REQUEST)
         user = get_object_or_404(User, email=email)
         items = AccessPrivilege(company=company, user=user)

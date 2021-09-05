@@ -14,12 +14,6 @@ class AdminCategory(admin.ModelAdmin):
     empty_value_display = '-empty-'
 
 
-#
-# @admin.register(User)
-# class AdminCategory(admin.ModelAdmin):
-#     empty_value_display = '-empty-'
-
-
 @admin.register(Worker)
 class AdminCategory(admin.ModelAdmin):
     empty_value_display = '-empty-'
