@@ -106,7 +106,37 @@ class AccessPrivilegeSerializer(serializers.ModelSerializer):
         fields = ('company', 'user')
 
 
+class MeCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id', 'name')
+ 
+
+class MePrivilegeSerializer(serializers.ModelSerializer):
+    company = MeCompanySerializer(read_only=True)
+
+    class Meta:
+        model = AccessPrivilege
+        fields = ('company',)
+
+
 class MeSerializer(serializers.ModelSerializer):
+    permissions = serializers.SerializerMethodField(
+        method_name='get_permissions')
+
+    companies = serializers.SerializerMethodField(
+        method_name='get_companies')
+
+    def get_companies(self, obj):
+        data = obj.companies
+        company = MeCompanySerializer(data, many=True)
+        return company.data
+
+    def get_permissions(self, obj):
+        data = obj.permissions
+        company = MePrivilegeSerializer(data, many=True)
+        return company.data
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'permissions', 'companies')
