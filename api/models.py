@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from .validators import validate_name
+
 User = get_user_model()
 
 
@@ -31,7 +33,7 @@ class AccessPrivilege(models.Model):
 class Worker(models.Model):
     company = models.ForeignKey(Company, 'Компания',
                                 related_name='workers')
-    name = models.CharField('ФИО', max_length=50)
+    name = models.CharField('ФИО', max_length=50, validators=[validate_name])
     position = models.CharField('Долженость',
                                 max_length=40)
     personal_phone = models.CharField(verbose_name='Личный номер',
@@ -43,8 +45,6 @@ class Worker(models.Model):
 
     def serializer_clean(self):
         return self.fax_phone or self.work_phone or self.personal_phone
-
-
 
     def get_phones(self):
         data = {

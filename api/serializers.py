@@ -1,5 +1,6 @@
-from django.db.models import Q
 from operator import itemgetter
+
+from django.db.models import Q
 from rest_framework import serializers
 
 from .models import Company, Worker, User, AccessPrivilege
@@ -44,6 +45,8 @@ class WorkerPostSerializer(serializers.ModelSerializer):
 class FilteredListSerializer(serializers.ListSerializer):
 
     def to_representation(self, data):
+        if self.context.get('view').basename == 'Worker':
+            return super(FilteredListSerializer, self).to_representation(data)
         search = None
         pre_search = self.context['request'].GET
         if 'search' in pre_search:
@@ -106,7 +109,27 @@ class AccessPrivilegeSerializer(serializers.ModelSerializer):
         fields = ('company', 'user')
 
 
+class MeCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id', 'name')
+
+
 class MeSerializer(serializers.ModelSerializer):
+    permissions = serializers.SerializerMethodField(method_name='get_name')
+
+    companies = serializers.SerializerMethodField(
+        method_name='get_companies')
+
+    def get_companies(self, obj):
+        data = obj.companies
+        company = MeCompanySerializer(data, many=True)
+        return company.data
+
+    def get_name(self, obj):
+        company = Company.objects.filter(delegate_persons=obj)
+        return MeCompanySerializer(company, many=True).data
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'permissions', 'companies')

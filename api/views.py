@@ -18,7 +18,10 @@ class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = CompanySerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'workers__name', 'workers__work_phone']
+    search_fields = ['name',
+                     'workers__name', 'workers__work_phone',
+                     'workers__personal_phone', 'workers__fax_phone'
+                     ]
 
     def perform_create(self, serializer):
         serializer.save(administrator=self.request.user)
@@ -74,6 +77,8 @@ class PrivilegeView(APIView):
     def delete(self, request, company_id):
         email = request.data.get('email')
         company = get_object_or_404(Company, pk=company_id)
+        if request.user.email == email:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         user = get_object_or_404(User, email=email)
         items = get_object_or_404(AccessPrivilege, company=company, user=user)
         items.delete()
