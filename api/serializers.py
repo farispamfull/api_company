@@ -30,7 +30,7 @@ class WorkerPostSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         item = Worker(**attrs)
-        if item.clean():
+        if item.serializer_clean():
             return attrs
         raise serializers.ValidationError('Нужно ввести хотя бы один номер')
 

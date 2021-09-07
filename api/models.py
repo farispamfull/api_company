@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from .validators import validate_name
+from .validators import validate_name, validate_phone
 
 User = get_user_model()
 
@@ -40,11 +40,12 @@ class Worker(models.Model):
     position = models.CharField('Долженость',
                                 max_length=40)
     personal_phone = models.CharField(verbose_name='Личный номер',
-                                      max_length=15, null=True, blank=True)
+                                      max_length=15, null=True, blank=True,
+                                      validators=[validate_phone])
     fax_phone = models.CharField('Факс номер', max_length=15, null=True,
-                                 blank=True)
+                                 blank=True, validators=[validate_phone])
     work_phone = models.CharField('Рабочий номер', max_length=15, null=True,
-                                  blank=True)
+                                  blank=True, validators=[validate_phone])
 
     def serializer_clean(self):
         return self.fax_phone or self.work_phone or self.personal_phone
