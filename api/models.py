@@ -15,6 +15,9 @@ class Company(models.Model):
     address = models.TextField('Адрес', null=True, blank=True)
     delegate_persons = models.ManyToManyField(User, through='AccessPrivilege')
 
+    def get_administrator(self):
+        return self.administrator
+
 
 class AccessPrivilege(models.Model):
     user = models.ForeignKey(User,

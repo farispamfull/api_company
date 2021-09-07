@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Company, Worker, User, AccessPrivilege
-from .permissions import IsAuthenticatedOrReadOnly, WorkersPermissions
+from .permissions import IsAdminOrDelegate, WorkersPermissions, IsAdministrator
 from .serializers import (CompanySerializer, WorkerPostSerializer,
                           WorkerSerializer, RightsSerializer,
                           AccessPrivilegeSerializer, MeSerializer)
@@ -15,7 +15,7 @@ from .serializers import (CompanySerializer, WorkerPostSerializer,
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated & IsAdministrator]
     serializer_class = CompanySerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name',
@@ -35,7 +35,7 @@ class BaseCreateViewSet(mixins.ListModelMixin,
 
 
 class WorkerViewSet(viewsets.ModelViewSet):
-    permission_classes = [WorkersPermissions, ]
+    permission_classes = [WorkersPermissions & IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'work_phone', 'fax_phone', 'personal_phone']
 
@@ -54,7 +54,7 @@ class WorkerViewSet(viewsets.ModelViewSet):
 
 
 class PrivilegeView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    permission_classes = [IsAdminOrDelegate & IsAuthenticated]
 
     def get(self, request, company_id):
         company = company_id
@@ -76,7 +76,8 @@ class PrivilegeView(APIView):
 
     def delete(self, request, company_id):
         email = request.data.get('email')
-        company = get_object_or_404(Company, pk=company_id)
+        company = get_object_or_404(Company, pk=company_id,
+                                    administrator=request.user)
         if request.user.email == email:
             return Response(status=status.HTTP_404_NOT_FOUND)
         user = get_object_or_404(User, email=email)
