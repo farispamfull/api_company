@@ -68,7 +68,7 @@
                 "name": "string"
             },
         
-    ],
+    ]
     "companies": [
         {
             "id": 0,
