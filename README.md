@@ -19,7 +19,6 @@
 
  * get 
 
-*example response:*
 
 ```json
 {
@@ -49,6 +48,7 @@
     "email":"string" 
     
 }
+```
 
 * delete
 
