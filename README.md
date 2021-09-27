@@ -162,13 +162,8 @@
 
 **api/v1/company/<company_id>/workers/**
 
-### Было решено, что у работников всегда не отображаются пустые поля с номерами при get
-
-
 ### Поиск идет по одному параметру search
 
 Совпадения ищет как в тз
 
 **api/v1/company/?search=value**
-Небольшое readme:
-https://observant-kick-84c.notion.site/readme-ef4197a29f694c239d6ea3a6f484757f
