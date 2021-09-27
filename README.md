@@ -2,6 +2,59 @@
 
 Второй этап отбора на проект от яндекса фестиваль "Любимовка" (пройден)
 
+## Новый функционал
+
+* регестрация и вход проходят исключительно по email и password, обратно приходит токен 
+
+**Prefix:** api/auth/
+
+**registration/**
+
+**login/**
+
+* Создатель компании и те, кому он передал права, могут посмотреть всех у кого есть права
+на эту фирмы
+
+**api/v1/company/<company_id>/access**
+
+* get 
+
+*example response:*
+
+```json
+{
+    "administrator": {
+        "id": 0,
+        "username": "string",
+        "email": "string"
+    },
+    "delegate_persons": [
+        {
+            "id": int,
+            "username": "string",
+            "email": "string"
+        }
+    ]
+}
+```
+
+Добавить права может только создатель компании: 
+
+**api/v1/company/<company_id>/access**
+
+* post
+
+```json
+{
+    "email":"string" 
+    
+}
+
+* delete
+
+**api/v1/company/<company_id>/access/<user_id>**
+
+
 Небольшое readme:
 https://observant-kick-84c.notion.site/readme-ef4197a29f694c239d6ea3a6f484757f
 
