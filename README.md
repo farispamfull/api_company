@@ -6,18 +6,18 @@
 
 1. Регистрация и вход проходят исключительно по email и password, обратно приходит токен 
 
-**Prefix:** api/auth/
+ **Prefix:** api/auth/
 
-**registration/**
+ **registration/**
 
-**login/**
+ **login/**
 
 2. Создатель компании и те, кому он передал права, могут посмотреть всех у кого есть права
 на эту фирмы
 
-**api/v1/company/<company_id>/access**
+ **api/v1/company/<company_id>/access**
 
-* get 
+ * get 
 
 *example response:*
 
@@ -40,7 +40,7 @@
 
 Добавить права может только создатель компании: 
 
-**api/v1/company/<company_id>/access**
+ **api/v1/company/<company_id>/access**
 
 * post
 
