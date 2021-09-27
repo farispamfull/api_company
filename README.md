@@ -61,18 +61,18 @@
 {
     "id": 0,
     "username": "string",
-    "email": "string"
+    "email": "string",
     "permissions": [
         {
                 "id": 0,
                 "name": "string"
             },
         
-    ]
+    ],
     "companies": [
         {
             "id": 0,
-            "name": "string"
+            "name": "string",
         },
     ]
 }
