@@ -30,7 +30,7 @@
     },
     "delegate_persons": [
         {
-            "id": int,
+            "id": 0,
             "username": "string",
             "email": "string"
         }
